@@ -597,17 +597,25 @@ var Module = null;
                       }] };
    };
 
+   DosBoxLoader.mountCD = function (drive, mountpoint) {
+    // drive: default return {}
+    return drive ? { files: [{ drive: drive,
+                       mountpoint: mountpoint ? mountpoint : "/c",
+                       drive_type: "cdrom",
+                     }] } : {};
+  };
+
    DosBoxLoader.mountImage = function(drive, filepath, drive_type, file_system){
     // See also https://www.dosbox.com/wiki/IMGMOUNT
     // drive: the drive to mount
     // filepath: the location of image file, like "/c/test.iso" NOTE: this depends on the method `DosBoxLoader.mountZip` or `DosBoxLoader.mountFile`
     // drive_type: floppy, iso, hdd
     // file_system: iso, fat, none
-    return { images: [{ drive: drive,
-                       filepath: filepath,
-                       drive_type: drive_type,
-                       file_system: file_system
-                     }] };
+    return filepath ? { images: [{ drive: drive,
+                       filepath: "/c/" + filepath,
+                       drive_type: drive_type || "iso",
+                       file_system: file_system || "iso"
+                     }] } : {};
    };
 
    /**
